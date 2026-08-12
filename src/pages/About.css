@@ -1,0 +1,743 @@
+/* =========================================================
+   ABOUT PAGE — PREMIUM UI
+========================================================= */
+
+.about-page {
+  min-height: 100vh;
+  padding: 0 24px 80px;
+
+  background:
+    radial-gradient(
+      circle at 10% 5%,
+      rgba(99, 102, 241, 0.13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(6, 182, 212, 0.12),
+      transparent 28%
+    ),
+    #f7f9fc;
+
+  color: #172033;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.about-hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 90px 20px 70px;
+  text-align: center;
+}
+
+.about-hero-content {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 15px;
+
+  border-radius: 999px;
+
+  background: rgba(99, 102, 241, 0.08);
+
+  border: 1px solid rgba(99, 102, 241, 0.16);
+
+  color: #4f46e5;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+}
+
+.about-hero h1 {
+  margin: 24px 0 20px;
+
+  font-size: clamp(42px, 6vw, 70px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2.8px;
+
+  font-weight: 850;
+
+  color: #111827;
+}
+
+.about-hero h1 span {
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #0891b2
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  background-clip: text;
+}
+
+.about-hero p {
+  max-width: 720px;
+
+  margin: 0 auto;
+
+  color: #64748b;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.about-section {
+  max-width: 1180px;
+
+  margin: 0 auto 70px;
+}
+
+.about-section-heading {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.about-section-heading > span {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 42px;
+  height: 42px;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  color: #4f46e5;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.about-section-heading h2 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 28px;
+
+  letter-spacing: -0.8px;
+}
+
+.about-section-heading p {
+  margin: 7px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   PROJECT CARD
+========================================================= */
+
+.about-project-card {
+  display: grid;
+
+  grid-template-columns: 90px 1fr;
+
+  gap: 28px;
+
+  padding: 34px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  border:
+    1px solid rgba(226, 232, 240, 0.9);
+
+  border-radius: 25px;
+
+  box-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.06);
+}
+
+.about-project-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  font-size: 34px;
+}
+
+.about-project-card h3 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+
+  color: #111827;
+}
+
+.about-project-card p {
+  margin: 0 0 12px;
+
+  color: #64748b;
+
+  line-height: 1.75;
+
+  font-size: 15px;
+}
+
+.about-project-card p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.about-feature-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.about-feature-card {
+  padding: 27px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  border:
+    1px solid rgba(226, 232, 240, 0.9);
+
+  border-radius: 21px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.about-feature-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(99, 102, 241, 0.25);
+
+  box-shadow:
+    0 18px 40px
+      rgba(15, 23, 42, 0.09);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 17px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  font-size: 22px;
+}
+
+.about-feature-card h3 {
+  margin: 0 0 9px;
+
+  font-size: 17px;
+
+  color: #111827;
+}
+
+.about-feature-card p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   TECHNOLOGY
+========================================================= */
+
+.about-tech-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  gap: 16px;
+}
+
+.about-tech-card {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  padding: 25px 15px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius: 19px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.about-tech-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 30px
+      rgba(15, 23, 42, 0.08);
+}
+
+.about-tech-card strong {
+  font-size: 30px;
+
+  margin-bottom: 12px;
+}
+
+.about-tech-card span {
+  color: #111827;
+
+  font-size: 15px;
+
+  font-weight: 750;
+}
+
+.about-tech-card small {
+  margin-top: 5px;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   DEVELOPER
+========================================================= */
+
+.developer-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 28px;
+
+  padding: 35px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827,
+      #1e293b
+    );
+
+  border-radius: 25px;
+
+  box-shadow:
+    0 20px 45px
+      rgba(15, 23, 42, 0.16);
+
+  color: white;
+}
+
+.developer-avatar {
+  flex-shrink: 0;
+
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #06b6d4
+    );
+
+  font-size: 36px;
+
+  font-weight: 850;
+
+  box-shadow:
+    0 10px 30px
+      rgba(99, 102, 241, 0.3);
+}
+
+.developer-label {
+  color: #a5b4fc;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.developer-info h2 {
+  margin: 6px 0 5px;
+
+  font-size: 28px;
+
+  letter-spacing: -0.7px;
+}
+
+.developer-info > p {
+  margin: 0;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+}
+
+.developer-description {
+  max-width: 650px;
+
+  margin-top: 13px !important;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   VERSION
+========================================================= */
+
+.about-version {
+  max-width: 1180px;
+
+  margin: 0 auto 55px;
+
+  padding: 20px 25px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius: 18px;
+}
+
+.about-version > div:first-child {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.about-version span {
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.about-version strong {
+  padding: 5px 11px;
+
+  border-radius: 8px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 13px;
+}
+
+.version-status {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #475569 !important;
+
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+
+  box-shadow:
+    0 0 0 4px rgba(34, 197, 94, 0.12);
+}
+
+
+/* =========================================================
+   FINAL MESSAGE
+========================================================= */
+
+.about-final {
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  text-align: center;
+
+  padding: 35px 20px;
+}
+
+.about-final-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  font-size: 25px;
+}
+
+.about-final h2 {
+  margin: 0 0 10px;
+
+  color: #111827;
+
+  font-size: 28px;
+
+  letter-spacing: -0.7px;
+}
+
+.about-final p {
+  margin: 0;
+
+  color: #64748b;
+
+  line-height: 1.7;
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .about-feature-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .about-tech-grid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .about-page {
+    padding:
+      0 16px 60px;
+  }
+
+  .about-hero {
+    padding:
+      65px 8px 55px;
+  }
+
+  .about-hero h1 {
+    font-size: 42px;
+
+    letter-spacing: -1.8px;
+  }
+
+  .about-hero p {
+    font-size: 15px;
+  }
+
+  .about-section {
+    margin-bottom: 50px;
+  }
+
+  .about-section-heading h2 {
+    font-size: 23px;
+  }
+
+  .about-project-card {
+    grid-template-columns: 1fr;
+
+    padding: 25px;
+  }
+
+  .about-project-icon {
+    width: 65px;
+    height: 65px;
+  }
+
+  .about-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-tech-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .developer-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 27px;
+  }
+
+  .about-version {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .about-hero h1 {
+    font-size: 36px;
+  }
+
+  .about-badge {
+    font-size: 10px;
+  }
+
+  .about-tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .developer-avatar {
+    width: 72px;
+    height: 72px;
+
+    border-radius: 21px;
+
+    font-size: 28px;
+  }
+
+  .developer-info h2 {
+    font-size: 24px;
+  }
+
+}

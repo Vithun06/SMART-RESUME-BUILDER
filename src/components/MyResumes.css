@@ -1,0 +1,542 @@
+/* =========================================================
+   MY RESUMES — PREMIUM UI
+========================================================= */
+
+.my-resumes-page {
+  min-height: 100vh;
+  padding: 40px;
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(99, 102, 241, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(14, 165, 233, 0.12),
+      transparent 30%
+    ),
+    #f6f8fc;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #172033;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.my-resumes-header {
+  max-width: 1180px;
+  margin: 0 auto 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.my-resumes-title-area h1 {
+  margin: 0;
+
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827,
+      #4f46e5,
+      #0891b2
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.my-resumes-title-area p {
+  margin: 8px 0 0;
+
+  color: #6b7280;
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   SEARCH AREA
+========================================================= */
+
+.resume-search-wrapper {
+  max-width: 1180px;
+  margin: 0 auto 28px;
+  position: relative;
+}
+
+.resume-search-wrapper::before {
+  content: "⌕";
+
+  position: absolute;
+  left: 17px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 22px;
+  color: #94a3b8;
+
+  pointer-events: none;
+}
+
+.resume-search-input {
+  width: 100%;
+  height: 54px;
+
+  padding: 0 20px 0 50px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  color: #1e293b;
+
+  font-size: 15px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 8px 25px rgba(15, 23, 42, 0.05);
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.resume-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.resume-search-input:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.10),
+    0 12px 30px rgba(15, 23, 42, 0.07);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESUME LIST
+========================================================= */
+
+.resume-history-list {
+  max-width: 1180px;
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(310px, 1fr)
+    );
+
+  gap: 22px;
+}
+
+
+/* =========================================================
+   RESUME CARD
+========================================================= */
+
+.resume-history-card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 250, 252, 0.96)
+    );
+
+  padding: 25px;
+
+  border-radius: 22px;
+
+  border: 1px solid
+    rgba(226, 232, 240, 0.9);
+
+  box-shadow:
+    0 10px 30px
+      rgba(15, 23, 42, 0.06);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+/* Decorative glow */
+
+.resume-history-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  top: -75px;
+  right: -75px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.16),
+      rgba(6, 182, 212, 0.10)
+    );
+
+  pointer-events: none;
+}
+
+.resume-history-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(99, 102, 241, 0.25);
+
+  box-shadow:
+    0 20px 45px
+      rgba(15, 23, 42, 0.11);
+}
+
+
+/* =========================================================
+   RESUME CARD TITLE
+========================================================= */
+
+.resume-history-card h3 {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 8px;
+
+  font-size: 20px;
+  font-weight: 750;
+
+  color: #111827;
+
+  letter-spacing: -0.3px;
+}
+
+.resume-history-card p {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 20px;
+
+  color: #64748b;
+
+  font-size: 14px;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   CARD BUTTON AREA
+========================================================= */
+
+.resume-history-card button {
+  position: relative;
+  z-index: 2;
+
+  min-height: 42px;
+
+  padding: 10px 15px;
+
+  margin: 5px 6px 0 0;
+
+  border: none;
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.resume-history-card button:hover {
+  transform: translateY(-2px);
+}
+
+.resume-history-card button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+========================================================= */
+
+.resume-history-card button:nth-of-type(1) {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #6366f1
+    );
+
+  box-shadow:
+    0 7px 18px
+      rgba(79, 70, 229, 0.22);
+}
+
+.resume-history-card button:nth-of-type(1):hover {
+  box-shadow:
+    0 10px 24px
+      rgba(79, 70, 229, 0.30);
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.resume-history-card button:nth-of-type(2) {
+  color: #075985;
+
+  background:
+    #e0f2fe;
+
+  border: 1px solid
+    #bae6fd;
+}
+
+.resume-history-card button:nth-of-type(2):hover {
+  background: #bae6fd;
+
+  box-shadow:
+    0 7px 18px
+      rgba(14, 165, 233, 0.12);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.resume-history-card button:nth-of-type(3) {
+  color: #b91c1c;
+
+  background:
+    #fef2f2;
+
+  border: 1px solid
+    #fecaca;
+}
+
+.resume-history-card button:nth-of-type(3):hover {
+  background: #fee2e2;
+
+  box-shadow:
+    0 7px 18px
+      rgba(239, 68, 68, 0.12);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.my-resumes-empty {
+  max-width: 600px;
+
+  margin: 80px auto;
+
+  padding: 45px 30px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 15px 40px
+      rgba(15, 23, 42, 0.06);
+}
+
+.my-resumes-empty-icon {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  font-size: 30px;
+}
+
+.my-resumes-empty h2 {
+  margin: 0 0 8px;
+
+  font-size: 22px;
+  color: #111827;
+}
+
+.my-resumes-empty p {
+  margin: 0;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.my-resumes-loading {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  color: #64748b;
+
+  font-size: 15px;
+}
+
+.my-resumes-loading-spinner {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  border: 4px solid #e2e8f0;
+
+  border-top-color: #6366f1;
+
+  animation:
+    myResumeSpin 0.8s linear infinite;
+}
+
+@keyframes myResumeSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .my-resumes-page {
+    padding: 24px 16px;
+  }
+
+  .my-resumes-header {
+    align-items: flex-start;
+  }
+
+  .my-resumes-title-area h1 {
+    font-size: 28px;
+  }
+
+  .my-resumes-title-area p {
+    font-size: 14px;
+  }
+
+  .resume-history-list {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-history-card {
+    padding: 21px;
+    border-radius: 19px;
+  }
+
+  .resume-history-card button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 7px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .my-resumes-page {
+    padding: 20px 12px;
+  }
+
+  .my-resumes-title-area h1 {
+    font-size: 25px;
+  }
+
+  .resume-search-input {
+    height: 50px;
+    border-radius: 14px;
+  }
+
+  .resume-history-card {
+    padding: 18px;
+  }
+
+  .resume-history-card h3 {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,345 @@
+/* =========================================================
+   SMART RESUME BUILDER
+   PREMIUM CERTIFICATIONS SECTION
+========================================================= */
+
+.certifications-section {
+  width: 100%;
+  margin-top: 28px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.certifications-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.certifications-heading-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.certifications-heading-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  color: #4f46e5;
+
+  background: linear-gradient(
+    135deg,
+    #eef2ff,
+    #ecfeff
+  );
+
+  border: 1px solid rgba(79, 70, 229, 0.12);
+
+  font-size: 14px;
+
+  box-shadow:
+    0 4px 12px rgba(79, 70, 229, 0.08);
+}
+
+.certifications-heading-wrap h3 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+}
+
+.certifications-heading-line {
+  display: block;
+
+  width: 38px;
+  height: 2px;
+
+  margin-top: 5px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #4f46e5,
+    #06b6d4
+  );
+}
+
+
+/* =========================================================
+   CERTIFICATIONS LIST
+========================================================= */
+
+.certifications-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+/* =========================================================
+   CERTIFICATION ITEM
+========================================================= */
+
+.certification-item {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  min-height: 66px;
+
+  padding: 11px 14px 11px 12px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #f8fafc
+    );
+
+  box-shadow:
+    0 4px 14px rgba(15, 23, 42, 0.045);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.certification-item:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(79, 70, 229, 0.18);
+
+  box-shadow:
+    0 9px 24px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   LEFT ACCENT
+========================================================= */
+
+.certification-accent {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #4f46e5,
+      #06b6d4
+    );
+}
+
+
+/* =========================================================
+   CERTIFICATION ICON
+========================================================= */
+
+.certification-icon {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  margin-left: 5px;
+  margin-right: 12px;
+
+  border-radius: 11px;
+
+  color: #4f46e5;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #ecfeff
+    );
+
+  border: 1px solid
+    rgba(79, 70, 229, 0.12);
+
+  font-size: 14px;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.certification-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.certification-content h4 {
+  margin: 0;
+
+  color: #172033;
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+  font-weight: 750;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.certification-meta {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 5px;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+.certification-meta-icon {
+  color: #4f46e5;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.certification-number {
+  margin-left: 12px;
+
+  color: #cbd5e1;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+}
+
+
+/* =========================================================
+   PRINT / PDF FRIENDLY
+========================================================= */
+
+@media print {
+
+  .certification-item {
+    box-shadow: none;
+
+    transform: none !important;
+
+    break-inside: avoid;
+
+    page-break-inside: avoid;
+  }
+
+  .certification-item:hover {
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .certifications-section {
+    margin-top: 22px;
+  }
+
+  .certification-item {
+    padding: 10px 11px 10px 9px;
+
+    min-height: 60px;
+
+    border-radius: 11px;
+  }
+
+  .certification-icon {
+    width: 32px;
+    height: 32px;
+
+    margin-right: 9px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+  }
+
+  .certification-content h4 {
+    font-size: 13px;
+  }
+
+  .certification-meta {
+    font-size: 10px;
+  }
+
+  .certification-number {
+    display: none;
+  }
+
+  .certifications-heading-wrap h3 {
+    font-size: 12px;
+  }
+}

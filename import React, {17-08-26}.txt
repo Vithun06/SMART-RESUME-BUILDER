@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -44,57 +43,12 @@ import {
 ========================================================= */
 
 const MAX_PROFILE_SIZE = 1 * 1024 * 1024;
-const MAX_CERT_IMAGE_SIZE = 2 * 1024 * 1024;
-const MAX_CERT_PDF_SIZE = 2 * 1024 * 1024;
 
-const DRAFT_KEY = "resume_draft";
+const MAX_CERT_IMAGE_SIZE =
+  2 * 1024 * 1024;
 
-const DEFAULT_TEMPLATE = "modern";
-
-const COMMON_INDUSTRY_KEYWORDS = [
-  "Java",
-  "JavaScript",
-  "React",
-  "SQL",
-  "HTML",
-  "CSS",
-  "Firebase",
-  "Git",
-  "GitHub",
-  "REST API",
-  "Problem Solving",
-  "Data Structures",
-  "Database",
-  "Agile",
-  "Communication",
-];
-
-const STRONG_ACTION_VERBS = [
-  "Developed",
-  "Designed",
-  "Implemented",
-  "Built",
-  "Created",
-  "Optimized",
-  "Improved",
-  "Automated",
-  "Integrated",
-  "Tested",
-  "Managed",
-  "Analyzed",
-  "Configured",
-  "Collaborated",
-  "Delivered",
-];
-
-const WEAK_ACTION_WORDS = [
-  "worked",
-  "helped",
-  "did",
-  "made",
-  "responsible for",
-  "participated",
-];
+const MAX_CERT_PDF_SIZE =
+  2 * 1024 * 1024;
 
 
 /* =========================================================
@@ -105,16 +59,13 @@ const INITIAL_STATE = {
   fullName: "",
   email: "",
   phoneNumber: "",
-
   summary: "",
-
   skills: "",
-
   education: "",
-
   cgpa: "",
 
-  template: DEFAULT_TEMPLATE,
+  /* DEFAULT = MODERN */
+  template: "modern",
 
   isPublic: true,
 
@@ -143,131 +94,6 @@ const INITIAL_STATE = {
       certificateFileType: "",
     },
   ],
-
-  /* =======================================================
-     SMART RESUME DATA
-  ======================================================= */
-
-  targetRole: "",
-
-  targetIndustry: "",
-
-  linkedin: "",
-
-  github: "",
-
-  languages: "",
-
-  achievements: "",
-
-  interests: "",
-
-  keywords: "",
-
-  aiSuggestions: [],
-
-  skillGapSuggestions: [],
-
-  interviewSuggestions: [],
-
-  atsScore: 0,
-
-  humanScore: 0,
-
-  aiScore: 0,
-
-  lastAnalysisAt: null,
-};
-
-
-/* =========================================================
-   SAFE INITIAL STATE BUILDER
-========================================================= */
-
-const buildInitialState = (data = {}) => {
-  return {
-    ...INITIAL_STATE,
-
-    ...data,
-
-    template:
-      data.template ||
-      DEFAULT_TEMPLATE,
-
-    internship: {
-      ...INITIAL_STATE.internship,
-      ...(data.internship || {}),
-    },
-
-    projects:
-      Array.isArray(data.projects) &&
-      data.projects.length > 0
-        ? data.projects
-        : INITIAL_STATE.projects,
-
-    certifications:
-      Array.isArray(data.certifications) &&
-      data.certifications.length > 0
-        ? data.certifications
-        : INITIAL_STATE.certifications,
-
-    aiSuggestions:
-      Array.isArray(data.aiSuggestions)
-        ? data.aiSuggestions
-        : [],
-
-    skillGapSuggestions:
-      Array.isArray(data.skillGapSuggestions)
-        ? data.skillGapSuggestions
-        : [],
-
-    interviewSuggestions:
-      Array.isArray(data.interviewSuggestions)
-        ? data.interviewSuggestions
-        : [],
-  };
-};
-
-
-/* =========================================================
-   TEXT UTILITIES
-========================================================= */
-
-const normalizeText = (value = "") =>
-  String(value)
-    .toLowerCase()
-    .replace(/[^\w\s+#.-]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-
-const splitSkills = (value = "") =>
-  value
-    .split(",")
-    .map((skill) => skill.trim())
-    .filter(Boolean);
-
-
-const countWords = (value = "") =>
-  normalizeText(value)
-    .split(/\s+/)
-    .filter(Boolean)
-    .length;
-
-
-const containsNumber = (value = "") =>
-  /\d/.test(value);
-
-
-const containsActionVerb = (value = "") => {
-  const text = normalizeText(value);
-
-  return STRONG_ACTION_VERBS.some(
-    (verb) =>
-      text.includes(
-        normalizeText(verb)
-      )
-  );
 };
 
 
@@ -281,10 +107,12 @@ const compressImage = (
 ) => {
   return new Promise(
     (resolve, reject) => {
-      const reader = new FileReader();
+      const reader =
+        new FileReader();
 
       reader.onload = (event) => {
-        const img = new Image();
+        const img =
+          new Image();
 
         img.onload = () => {
           const canvas =
@@ -292,25 +120,36 @@ const compressImage = (
               "canvas"
             );
 
-          let width = img.width;
-          let height = img.height;
+          let width =
+            img.width;
 
-          const MAX_DIMENSION = 1600;
+          let height =
+            img.height;
+
+          const MAX_DIMENSION =
+            1600;
 
           if (
-            width > MAX_DIMENSION ||
-            height > MAX_DIMENSION
+            width >
+              MAX_DIMENSION ||
+            height >
+              MAX_DIMENSION
           ) {
-            if (width > height) {
+            if (
+              width >
+              height
+            ) {
               height =
-                (height / width) *
+                (height /
+                  width) *
                 MAX_DIMENSION;
 
               width =
                 MAX_DIMENSION;
             } else {
               width =
-                (width / height) *
+                (width /
+                  height) *
                 MAX_DIMENSION;
 
               height =
@@ -318,21 +157,16 @@ const compressImage = (
             }
           }
 
-          canvas.width = width;
-          canvas.height = height;
+          canvas.width =
+            width;
+
+          canvas.height =
+            height;
 
           const ctx =
-            canvas.getContext("2d");
-
-          if (!ctx) {
-            reject(
-              new Error(
-                "Canvas is not supported."
-              )
+            canvas.getContext(
+              "2d"
             );
-
-            return;
-          }
 
           ctx.drawImage(
             img,
@@ -344,75 +178,70 @@ const compressImage = (
 
           let quality = 0.85;
 
-          const tryCompress = () => {
-            canvas.toBlob(
-              (blob) => {
-                if (!blob) {
-                  reject(
-                    new Error(
-                      "Image compression failed."
-                    )
-                  );
-
-                  return;
-                }
-
-                if (
-                  blob.size <=
-                    maxSizeBytes ||
-                  quality <= 0.35
-                ) {
-                  const compressedFile =
-                    new File(
-                      [blob],
-                      file.name.replace(
-                        /\.[^/.]+$/,
-                        ".jpg"
-                      ),
-                      {
-                        type:
-                          "image/jpeg",
-                      }
+          const tryCompress =
+            () => {
+              canvas.toBlob(
+                (blob) => {
+                  if (!blob) {
+                    reject(
+                      new Error(
+                        "Image compression failed."
+                      )
                     );
 
-                  resolve(
-                    compressedFile
-                  );
+                    return;
+                  }
 
-                  return;
-                }
+                  if (
+                    blob.size <=
+                      maxSizeBytes ||
+                    quality <= 0.35
+                  ) {
+                    const compressedFile =
+                      new File(
+                        [blob],
+                        file.name.replace(
+                          /\.[^/.]+$/,
+                          ".jpg"
+                        ),
+                        {
+                          type:
+                            "image/jpeg",
+                        }
+                      );
 
-                quality -= 0.1;
+                    resolve(
+                      compressedFile
+                    );
 
-                tryCompress();
-              },
-              "image/jpeg",
-              quality
-            );
-          };
+                    return;
+                  }
+
+                  quality -= 0.1;
+
+                  tryCompress();
+                },
+                "image/jpeg",
+                quality
+              );
+            };
 
           tryCompress();
         };
 
-        img.onerror = () =>
-          reject(
-            new Error(
-              "Unable to read image."
-            )
-          );
+        img.onerror =
+          reject;
 
         img.src =
           event.target.result;
       };
 
-      reader.onerror = () =>
-        reject(
-          new Error(
-            "Unable to read file."
-          )
-        );
+      reader.onerror =
+        reject;
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(
+        file
+      );
     }
   );
 };
@@ -423,9 +252,12 @@ const compressImage = (
 ========================================================= */
 
 const ResumeForm = () => {
-  const { resumeId } = useParams();
+  const {
+    resumeId,
+  } = useParams();
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
 
   /* =======================================================
@@ -439,28 +271,57 @@ const ResumeForm = () => {
     try {
       const savedDraft =
         localStorage.getItem(
-          DRAFT_KEY
+          "resume_draft"
         );
 
       if (!savedDraft) {
-        return buildInitialState();
+        return INITIAL_STATE;
       }
 
-      return buildInitialState(
-        JSON.parse(savedDraft)
-      );
+      const parsed =
+        JSON.parse(
+          savedDraft
+        );
+
+      return {
+        ...INITIAL_STATE,
+        ...parsed,
+
+        /* Always fallback to modern */
+        template:
+          parsed.template ||
+          "modern",
+
+        internship: {
+          ...INITIAL_STATE.internship,
+          ...(parsed.internship ||
+            {}),
+        },
+
+        projects:
+          parsed.projects
+            ?.length > 0
+            ? parsed.projects
+            : INITIAL_STATE.projects,
+
+        certifications:
+          parsed.certifications
+            ?.length > 0
+            ? parsed.certifications
+            : INITIAL_STATE.certifications,
+      };
     } catch {
       localStorage.removeItem(
-        DRAFT_KEY
+        "resume_draft"
       );
 
-      return buildInitialState();
+      return INITIAL_STATE;
     }
   });
 
 
   /* =======================================================
-     UI STATE
+     UI STATES
   ======================================================= */
 
   const [
@@ -488,41 +349,26 @@ const ResumeForm = () => {
     setActiveSection,
   ] = useState("personal");
 
-  const [
-    analysisOpen,
-    setAnalysisOpen,
-  ] = useState(false);
-
-  const [
-    analysisMessage,
-    setAnalysisMessage,
-  ] = useState("");
-
-  const [
-    isAnalyzing,
-    setIsAnalyzing,
-  ] = useState(false);
-
 
   /* =======================================================
-     AUTO SAVE DRAFT
+     AUTO SAVE
   ======================================================= */
 
   useEffect(() => {
-    if (resumeId) {
-      return;
-    }
-
-    try {
-      localStorage.setItem(
-        DRAFT_KEY,
-        JSON.stringify(formData)
-      );
-    } catch (error) {
-      console.warn(
-        "Draft save failed:",
-        error
-      );
+    if (!resumeId) {
+      try {
+        localStorage.setItem(
+          "resume_draft",
+          JSON.stringify(
+            formData
+          )
+        );
+      } catch (error) {
+        console.warn(
+          "Draft save failed",
+          error
+        );
+      }
     }
   }, [
     formData,
@@ -531,22 +377,24 @@ const ResumeForm = () => {
 
 
   /* =======================================================
-     AUTH + FETCH RESUME
+     AUTH + FETCH
   ======================================================= */
 
   useEffect(() => {
-    let mounted = true;
-
     const unsubscribe =
       onAuthStateChanged(
         auth,
-        async (currentUser) => {
-          if (!mounted) return;
-
+        async (
+          currentUser
+        ) => {
           if (!currentUser) {
-            setFetching(false);
+            setFetching(
+              false
+            );
 
-            navigate("/login");
+            navigate(
+              "/login"
+            );
 
             return;
           }
@@ -561,9 +409,13 @@ const ResumeForm = () => {
                 );
 
               const snapshot =
-                await getDoc(docRef);
+                await getDoc(
+                  docRef
+                );
 
-              if (!snapshot.exists()) {
+              if (
+                !snapshot.exists()
+              ) {
                 alert(
                   "Resume not found."
                 );
@@ -593,16 +445,34 @@ const ResumeForm = () => {
                 return;
               }
 
-              if (mounted) {
-                setFormData(
-                  buildInitialState(
-                    data
-                  )
-                );
-              }
+              setFormData({
+                ...INITIAL_STATE,
+                ...data,
+
+                template:
+                  data.template ||
+                  "modern",
+
+                internship: {
+                  ...INITIAL_STATE.internship,
+                  ...(data.internship ||
+                    {}),
+                },
+
+                projects:
+                  data.projects
+                    ?.length > 0
+                    ? data.projects
+                    : INITIAL_STATE.projects,
+
+                certifications:
+                  data.certifications
+                    ?.length > 0
+                    ? data.certifications
+                    : INITIAL_STATE.certifications,
+              });
             } catch (error) {
               console.error(
-                "Resume fetch error:",
                 error
               );
 
@@ -612,16 +482,14 @@ const ResumeForm = () => {
             }
           }
 
-          if (mounted) {
-            setFetching(false);
-          }
+          setFetching(
+            false
+          );
         }
       );
 
-    return () => {
-      mounted = false;
+    return () =>
       unsubscribe();
-    };
   }, [
     resumeId,
     navigate,
@@ -632,121 +500,98 @@ const ResumeForm = () => {
      COMPLETION
   ======================================================= */
 
-  const completion = useMemo(() => {
-    const checks = [
-      formData.fullName?.trim(),
-      formData.email?.trim(),
-      formData.phoneNumber?.trim(),
-      formData.summary?.trim(),
-      formData.skills?.trim(),
-      formData.education?.trim(),
-      formData.cgpa?.trim(),
-      formData.profilePhoto,
+  const completion =
+    useMemo(() => {
+      const checks = [
+        formData.fullName?.trim(),
+        formData.email?.trim(),
+        formData.phoneNumber?.trim(),
+        formData.summary?.trim(),
+        formData.skills?.trim(),
+        formData.education?.trim(),
+        formData.cgpa?.trim(),
+        formData.profilePhoto,
 
-      formData.targetRole?.trim(),
+        formData.internship
+          ?.companyName?.trim(),
 
-      formData.internship
-        ?.companyName?.trim(),
+        formData.internship
+          ?.jobRole?.trim(),
 
-      formData.internship
-        ?.jobRole?.trim(),
+        formData.internship
+          ?.description?.trim(),
 
-      formData.internship
-        ?.description?.trim(),
+        formData.projects?.some(
+          (project) =>
+            project.projectName?.trim() ||
+            project.projectDescription?.trim()
+        ),
 
-      formData.projects?.some(
-        (project) =>
-          project.projectName?.trim() ||
-          project.projectDescription?.trim()
-      ),
+        formData.certifications?.some(
+          (certificate) =>
+            certificate.title?.trim() ||
+            certificate.issuer?.trim()
+        ),
+      ];
 
-      formData.certifications?.some(
-        (certificate) =>
-          certificate.title?.trim() ||
-          certificate.issuer?.trim()
-      ),
+      const completed =
+        checks.filter(
+          Boolean
+        ).length;
 
-      formData.linkedin?.trim(),
-
-      formData.github?.trim(),
-
-      formData.languages?.trim(),
-
-      formData.achievements?.trim(),
-    ];
-
-    const completed =
-      checks.filter(Boolean).length;
-
-    return Math.round(
-      (completed / checks.length) *
-        100
-    );
-  }, [formData]);
+      return Math.round(
+        (completed /
+          checks.length) *
+          100
+      );
+    }, [formData]);
 
 
   /* =======================================================
      SECTION STATUS
   ======================================================= */
 
-  const sectionStatus = useMemo(
-    () => ({
-      personal:
-        Boolean(
-          formData.fullName &&
-          formData.email
-        ),
+  const sectionStatus = {
+    personal:
+      !!formData.fullName &&
+      !!formData.email,
 
-      education:
-        Boolean(
-          formData.education &&
-          formData.cgpa
-        ),
+    education:
+      !!formData.education &&
+      !!formData.cgpa,
 
-      experience:
-        Boolean(
-          formData.internship
-            ?.companyName ||
-          formData.internship
-            ?.jobRole ||
-          formData.internship
-            ?.description
-        ),
+    experience:
+      !!formData.internship
+        ?.companyName ||
+      !!formData.internship
+        ?.jobRole ||
+      !!formData.internship
+        ?.description,
 
-      skills:
-        Boolean(
-          formData.skills
-        ),
+    skills:
+      !!formData.skills,
 
-      projects:
-        Boolean(
-          formData.projects?.some(
-            (project) =>
-              project.projectName ||
-              project.projectDescription
-          )
-        ),
+    projects:
+      formData.projects?.some(
+        (project) =>
+          project.projectName ||
+          project.projectDescription
+      ),
 
-      certificates:
-        Boolean(
-          formData.certifications?.some(
-            (certificate) =>
-              certificate.title ||
-              certificate.issuer
-          )
-        ),
-
-      preview: true,
-    }),
-    [formData]
-  );
+    certificates:
+      formData.certifications?.some(
+        (certificate) =>
+          certificate.title ||
+          certificate.issuer
+      ),
+  };
 
 
   /* =======================================================
      BASIC CHANGE
   ======================================================= */
 
-  const handleChange = useCallback(
+  const handleChange =
     (e) => {
       const {
         name,
@@ -755,17 +600,18 @@ const ResumeForm = () => {
         checked,
       } = e.target;
 
-      setFormData((prev) => ({
-        ...prev,
+      setFormData(
+        (prev) => ({
+          ...prev,
 
-        [name]:
-          type === "checkbox"
-            ? checked
-            : value,
-      }));
-    },
-    []
-  );
+          [name]:
+            type ===
+            "checkbox"
+              ? checked
+              : value,
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -773,24 +619,26 @@ const ResumeForm = () => {
   ======================================================= */
 
   const handleNestedChange =
-    useCallback(
-      (
-        category,
-        field,
-        value
-      ) => {
-        setFormData((prev) => ({
+    (
+      category,
+      field,
+      value
+    ) => {
+      setFormData(
+        (prev) => ({
           ...prev,
 
           [category]: {
-            ...prev[category],
+            ...prev[
+              category
+            ],
 
-            [field]: value,
+            [field]:
+              value,
           },
-        }));
-      },
-      []
-    );
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -798,17 +646,26 @@ const ResumeForm = () => {
   ======================================================= */
 
   const handlePhoneChange =
-    useCallback((e) => {
+    (e) => {
       const value =
         e.target.value
-          .replace(/\D/g, "")
-          .slice(0, 10);
+          .replace(
+            /\D/g,
+            ""
+          )
+          .slice(
+            0,
+            10
+          );
 
-      setFormData((prev) => ({
-        ...prev,
-        phoneNumber: value,
-      }));
-    }, []);
+      setFormData(
+        (prev) => ({
+          ...prev,
+          phoneNumber:
+            value,
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -816,19 +673,24 @@ const ResumeForm = () => {
   ======================================================= */
 
   const handleArrayChange =
-    useCallback(
-      (
-        arrayName,
-        index,
-        field,
-        value
-      ) => {
-        setFormData((prev) => ({
+    (
+      arrayName,
+      index,
+      field,
+      value
+    ) => {
+      setFormData(
+        (prev) => ({
           ...prev,
 
           [arrayName]:
-            prev[arrayName].map(
-              (item, i) =>
+            prev[
+              arrayName
+            ].map(
+              (
+                item,
+                i
+              ) =>
                 i === index
                   ? {
                       ...item,
@@ -837,10 +699,9 @@ const ResumeForm = () => {
                     }
                   : item
             ),
-        }));
-      },
-      []
-    );
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -848,22 +709,23 @@ const ResumeForm = () => {
   ======================================================= */
 
   const addArrayItem =
-    useCallback(
-      (
-        arrayName,
-        newItem
-      ) => {
-        setFormData((prev) => ({
+    (
+      arrayName,
+      newItem
+    ) => {
+      setFormData(
+        (prev) => ({
           ...prev,
 
           [arrayName]: [
-            ...prev[arrayName],
+            ...prev[
+              arrayName
+            ],
             newItem,
           ],
-        }));
-      },
-      []
-    );
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -871,23 +733,24 @@ const ResumeForm = () => {
   ======================================================= */
 
   const removeArrayItem =
-    useCallback(
-      (
-        arrayName,
-        index
-      ) => {
-        setFormData((prev) => ({
+    (
+      arrayName,
+      index
+    ) => {
+      setFormData(
+        (prev) => ({
           ...prev,
 
           [arrayName]:
-            prev[arrayName].filter(
+            prev[
+              arrayName
+            ].filter(
               (_, i) =>
                 i !== index
             ),
-        }));
-      },
-      []
-    );
+        })
+      );
+    };
 
 
   /* =======================================================
@@ -899,7 +762,8 @@ const ResumeForm = () => {
       const originalFile =
         e.target.files?.[0];
 
-      if (!originalFile) return;
+      if (!originalFile)
+        return;
 
       if (
         !originalFile.type.startsWith(
@@ -913,7 +777,9 @@ const ResumeForm = () => {
         return;
       }
 
-      setPhotoUploading(true);
+      setPhotoUploading(
+        true
+      );
 
       try {
         const user =
@@ -965,20 +831,24 @@ const ResumeForm = () => {
               storage,
               formData.profilePhotoPath
             )
-          ).catch(() => {});
+          ).catch(
+            () => {}
+          );
         }
 
-        setFormData((prev) => ({
-          ...prev,
+        setFormData(
+          (prev) => ({
+            ...prev,
 
-          profilePhoto: url,
+            profilePhoto:
+              url,
 
-          profilePhotoPath:
-            filePath,
-        }));
+            profilePhotoPath:
+              filePath,
+          })
+        );
       } catch (error) {
         console.error(
-          "Profile upload error:",
           error
         );
 
@@ -986,9 +856,9 @@ const ResumeForm = () => {
           "Profile photo upload failed."
         );
       } finally {
-        setPhotoUploading(false);
-
-        e.target.value = "";
+        setPhotoUploading(
+          false
+        );
       }
     };
 
@@ -1005,14 +875,16 @@ const ResumeForm = () => {
       const originalFile =
         e.target.files?.[0];
 
-      if (!originalFile) return;
+      if (!originalFile)
+        return;
 
-      const allowedTypes = [
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-        "application/pdf",
-      ];
+      const allowedTypes =
+        [
+          "image/jpeg",
+          "image/jpg",
+          "image/png",
+          "application/pdf",
+        ];
 
       if (
         !allowedTypes.includes(
@@ -1064,7 +936,8 @@ const ResumeForm = () => {
           return;
         }
 
-        let file = originalFile;
+        let file =
+          originalFile;
 
         if (!isPdf) {
           file =
@@ -1108,7 +981,8 @@ const ResumeForm = () => {
         const oldPath =
           formData.certifications[
             index
-          ]?.certificateFilePath;
+          ]
+            ?.certificateFilePath;
 
         if (oldPath) {
           await deleteObject(
@@ -1116,39 +990,46 @@ const ResumeForm = () => {
               storage,
               oldPath
             )
-          ).catch(() => {});
+          ).catch(
+            () => {}
+          );
         }
 
-        setFormData((prev) => {
-          const updated = [
-            ...prev.certifications,
-          ];
+        setFormData(
+          (prev) => {
+            const updated =
+              [
+                ...prev.certifications,
+              ];
 
-          updated[index] = {
-            ...updated[index],
+            updated[index] =
+              {
+                ...updated[
+                  index
+                ],
 
-            certificateFile:
-              url,
+                certificateFile:
+                  url,
 
-            certificateFilePath:
-              filePath,
+                certificateFilePath:
+                  filePath,
 
-            certificateFileType:
-              isPdf
-                ? "application/pdf"
-                : "image/jpeg",
-          };
+                certificateFileType:
+                  isPdf
+                    ? "application/pdf"
+                    : "image/jpeg",
+              };
 
-          return {
-            ...prev,
+            return {
+              ...prev,
 
-            certifications:
-              updated,
-          };
-        });
+              certifications:
+                updated,
+            };
+          }
+        );
       } catch (error) {
         console.error(
-          "Certificate upload error:",
           error
         );
 
@@ -1159,14 +1040,12 @@ const ResumeForm = () => {
         setCertificateUploading(
           false
         );
-
-        e.target.value = "";
       }
     };
 
 
   /* =======================================================
-     REMOVE CERTIFICATE FILE
+     REMOVE CERTIFICATE
   ======================================================= */
 
   const handleRemoveCertificateFile =
@@ -1176,7 +1055,8 @@ const ResumeForm = () => {
           index
         ];
 
-      if (!certificate) return;
+      if (!certificate)
+        return;
 
       if (
         !window.confirm(
@@ -1195,400 +1075,48 @@ const ResumeForm = () => {
               storage,
               certificate.certificateFilePath
             )
-          ).catch(() => {});
+          ).catch(
+            () => {}
+          );
         }
 
-        setFormData((prev) => {
-          const updated = [
-            ...prev.certifications,
-          ];
+        setFormData(
+          (prev) => {
+            const updated =
+              [
+                ...prev.certifications,
+              ];
 
-          updated[index] = {
-            ...updated[index],
+            updated[index] =
+              {
+                ...updated[
+                  index
+                ],
 
-            certificateFile:
-              "",
+                certificateFile:
+                  "",
 
-            certificateFilePath:
-              "",
+                certificateFilePath:
+                  "",
 
-            certificateFileType:
-              "",
-          };
+                certificateFileType:
+                  "",
+              };
 
-          return {
-            ...prev,
+            return {
+              ...prev,
 
-            certifications:
-              updated,
-          };
-        });
+              certifications:
+                updated,
+            };
+          }
+        );
       } catch (error) {
         console.error(
           error
         );
       }
     };
-
-
-  /* =======================================================
-     LOCAL ATS ANALYSIS
-  ======================================================= */
-
-  const runResumeAnalysis =
-    useCallback(() => {
-      setIsAnalyzing(true);
-
-      try {
-        const fullText = [
-          formData.summary,
-          formData.skills,
-          formData.education,
-          formData.internship
-            ?.jobRole,
-          formData.internship
-            ?.companyName,
-          formData.internship
-            ?.description,
-
-          ...formData.projects.map(
-            (project) =>
-              `${project.projectName} ${project.projectDescription}`
-          ),
-
-          ...formData.certifications.map(
-            (certificate) =>
-              `${certificate.title} ${certificate.issuer}`
-          ),
-
-          formData.achievements,
-          formData.languages,
-        ]
-          .filter(Boolean)
-          .join(" ");
-
-        const normalized =
-          normalizeText(
-            fullText
-          );
-
-        const skills =
-          splitSkills(
-            formData.skills
-          );
-
-        const matchedKeywords =
-          COMMON_INDUSTRY_KEYWORDS.filter(
-            (keyword) =>
-              normalized.includes(
-                normalizeText(
-                  keyword
-                )
-              )
-          );
-
-        const missingKeywords =
-          COMMON_INDUSTRY_KEYWORDS.filter(
-            (keyword) =>
-              !normalized.includes(
-                normalizeText(
-                  keyword
-                )
-              )
-          );
-
-        const totalWords =
-          countWords(
-            fullText
-          );
-
-        const summaryWords =
-          countWords(
-            formData.summary
-          );
-
-        const hasActionVerb =
-          containsActionVerb(
-            formData.internship
-              ?.description
-          ) ||
-          formData.projects.some(
-            (project) =>
-              containsActionVerb(
-                project.projectDescription
-              )
-          );
-
-        const hasNumbers =
-          containsNumber(
-            formData.internship
-              ?.description
-          ) ||
-          formData.projects.some(
-            (project) =>
-              containsNumber(
-                project.projectDescription
-              )
-          ) ||
-          containsNumber(
-            formData.achievements
-          );
-
-        const weakWords =
-          WEAK_ACTION_WORDS.filter(
-            (word) =>
-              normalized.includes(
-                word
-              )
-          );
-
-        let score = 0;
-
-        if (
-          formData.fullName
-        ) score += 5;
-
-        if (
-          formData.email
-        ) score += 5;
-
-        if (
-          formData.phoneNumber
-        ) score += 5;
-
-        if (
-          summaryWords >= 30
-        ) score += 10;
-
-        if (
-          skills.length >= 5
-        ) score += 15;
-
-        if (
-          formData.education
-        ) score += 10;
-
-        if (
-          formData.projects.some(
-            (p) =>
-              p.projectName
-          )
-        ) score += 10;
-
-        if (
-          formData.internship
-            ?.description
-        ) score += 10;
-
-        if (
-          formData.certifications.some(
-            (c) =>
-              c.title
-          )
-        ) score += 5;
-
-        if (
-          matchedKeywords.length >= 5
-        ) score += 10;
-
-        if (
-          hasActionVerb
-        ) score += 5;
-
-        if (
-          hasNumbers
-        ) score += 5;
-
-        const atsScore =
-          Math.min(
-            100,
-            score
-          );
-
-        const humanScore =
-          Math.min(
-            100,
-            Math.round(
-              (
-                atsScore +
-                (hasActionVerb
-                  ? 8
-                  : 0) +
-                (hasNumbers
-                  ? 7
-                  : 0)
-              ) / 1.15
-            )
-          );
-
-        const aiScore =
-          Math.min(
-            100,
-            Math.round(
-              atsScore +
-              matchedKeywords.length * 1.5 +
-              (summaryWords >= 30
-                ? 3
-                : 0)
-            )
-          );
-
-        const suggestions = [];
-
-        if (
-          summaryWords < 30
-        ) {
-          suggestions.push(
-            "Improve your professional summary to around 30–60 words."
-          );
-        }
-
-        if (
-          skills.length < 5
-        ) {
-          suggestions.push(
-            "Add more relevant technical or professional skills."
-          );
-        }
-
-        if (
-          !hasActionVerb
-        ) {
-          suggestions.push(
-            "Use strong action verbs such as Developed, Designed, Implemented or Optimized."
-          );
-        }
-
-        if (!hasNumbers) {
-          suggestions.push(
-            "Add measurable achievements using numbers, percentages or outcomes."
-          );
-        }
-
-        if (
-          weakWords.length
-        ) {
-          suggestions.push(
-            `Replace weak phrases such as "${weakWords[0]}" with stronger achievement-focused language.`
-          );
-        }
-
-        if (
-          !formData.github
-        ) {
-          suggestions.push(
-            "Add your GitHub profile to strengthen your technical portfolio."
-          );
-        }
-
-        if (
-          !formData.linkedin
-        ) {
-          suggestions.push(
-            "Add your LinkedIn profile for professional visibility."
-          );
-        }
-
-        if (
-          !formData.targetRole
-        ) {
-          suggestions.push(
-            "Specify a target job role to improve contextual keyword recommendations."
-          );
-        }
-
-        if (
-          totalWords < 120
-        ) {
-          suggestions.push(
-            "Your resume content is short. Add relevant project, experience and achievement details."
-          );
-        }
-
-        const skillGapSuggestions =
-          missingKeywords
-            .slice(0, 6)
-            .map(
-              (keyword) =>
-                `Consider learning or demonstrating ${keyword} if it is relevant to your target role.`
-            );
-
-        const interviewSuggestions =
-          [];
-
-        if (
-          formData.targetRole
-        ) {
-          interviewSuggestions.push(
-            `Prepare to explain your experience related to ${formData.targetRole}.`
-          );
-        }
-
-        if (
-          formData.projects.some(
-            (project) =>
-              project.projectName
-          )
-        ) {
-          interviewSuggestions.push(
-            "Prepare a clear explanation of your project architecture, technologies and personal contribution."
-          );
-        }
-
-        if (
-          skills.length
-        ) {
-          interviewSuggestions.push(
-            "Be ready to answer practical questions about the skills listed in your resume."
-          );
-        }
-
-        if (
-          hasNumbers
-        ) {
-          interviewSuggestions.push(
-            "Be prepared to explain how you achieved the measurable results mentioned in your resume."
-          );
-        }
-
-        setFormData((prev) => ({
-          ...prev,
-
-          atsScore,
-
-          humanScore,
-
-          aiScore,
-
-          aiSuggestions:
-            suggestions,
-
-          skillGapSuggestions,
-
-          interviewSuggestions,
-
-          lastAnalysisAt:
-            new Date().toISOString(),
-        }));
-
-        setAnalysisMessage(
-          "Resume analysis completed successfully."
-        );
-
-        setAnalysisOpen(true);
-      } catch (error) {
-        console.error(
-          "Resume analysis error:",
-          error
-        );
-
-        setAnalysisMessage(
-          "Unable to analyse the resume right now."
-        );
-      } finally {
-        setIsAnalyzing(false);
-      }
-    }, [formData]);
 
 
   /* =======================================================
@@ -1607,125 +1135,15 @@ const ResumeForm = () => {
         );
 
       if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
+        element.scrollIntoView(
+          {
+            behavior:
+              "smooth",
 
-
-  /* =======================================================
-     VALIDATION
-  ======================================================= */
-
-  const validateResume =
-    () => {
-      if (
-        !formData.fullName.trim()
-      ) {
-        alert(
-          "Full Name is required."
+            block: "start",
+          }
         );
-
-        return false;
       }
-
-      if (
-        !formData.email.trim()
-      ) {
-        alert(
-          "Email is required."
-        );
-
-        return false;
-      }
-
-      const emailRegex =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      if (
-        !emailRegex.test(
-          formData.email.trim()
-        )
-      ) {
-        alert(
-          "Please enter a valid email."
-        );
-
-        return false;
-      }
-
-      if (
-        formData.phoneNumber &&
-        formData.phoneNumber.length !==
-          10
-      ) {
-        alert(
-          "Phone number must contain 10 digits."
-        );
-
-        return false;
-      }
-
-      if (
-        formData.cgpa
-      ) {
-        const cgpa =
-          Number(
-            formData.cgpa
-          );
-
-        if (
-          Number.isNaN(cgpa) ||
-          cgpa < 0 ||
-          cgpa > 10
-        ) {
-          alert(
-            "CGPA must be between 0 and 10."
-          );
-
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-
-  /* =======================================================
-     BUILD FIRESTORE PAYLOAD
-  ======================================================= */
-
-  const buildPayload =
-    (user) => {
-      return {
-        ...formData,
-
-        template:
-          formData.template ||
-          DEFAULT_TEMPLATE,
-
-        projects:
-          formData.projects.filter(
-            (project) =>
-              project.projectName?.trim() ||
-              project.projectDescription?.trim()
-          ),
-
-        certifications:
-          formData.certifications.filter(
-            (certificate) =>
-              certificate.title?.trim() ||
-              certificate.issuer?.trim()
-          ),
-
-        userId:
-          user.uid,
-
-        updatedAt:
-          serverTimestamp(),
-      };
     };
 
 
@@ -1745,20 +1163,106 @@ const ResumeForm = () => {
           "Please login first."
         );
 
-        navigate("/login");
+        return;
+      }
+
+      if (
+        !formData.fullName.trim()
+      ) {
+        alert(
+          "Full Name is required."
+        );
 
         return;
       }
 
-      if (!validateResume()) {
+      if (
+        !formData.email.trim()
+      ) {
+        alert(
+          "Email is required."
+        );
+
         return;
+      }
+
+      const emailRegex =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (
+        !emailRegex.test(
+          formData.email.trim()
+        )
+      ) {
+        alert(
+          "Please enter a valid email."
+        );
+
+        return;
+      }
+
+      if (
+        formData.phoneNumber &&
+        formData.phoneNumber.length !==
+          10
+      ) {
+        alert(
+          "Phone number must contain 10 digits."
+        );
+
+        return;
+      }
+
+      if (
+        formData.cgpa
+      ) {
+        const cgpa =
+          Number(
+            formData.cgpa
+          );
+
+        if (
+          cgpa < 0 ||
+          cgpa > 10
+        ) {
+          alert(
+            "CGPA must be between 0 and 10."
+          );
+
+          return;
+        }
       }
 
       setLoading(true);
 
       try {
-        const payload =
-          buildPayload(user);
+        const payload = {
+          ...formData,
+
+          template:
+            formData.template ||
+            "modern",
+
+          projects:
+            formData.projects.filter(
+              (project) =>
+                project.projectName?.trim() ||
+                project.projectDescription?.trim()
+            ),
+
+          certifications:
+            formData.certifications.filter(
+              (certificate) =>
+                certificate.title?.trim() ||
+                certificate.issuer?.trim()
+            ),
+
+          userId:
+            user.uid,
+
+          updatedAt:
+            serverTimestamp(),
+        };
 
         let targetId =
           resumeId;
@@ -1828,7 +1332,7 @@ const ResumeForm = () => {
         }
 
         localStorage.removeItem(
-          DRAFT_KEY
+          "resume_draft"
         );
 
         navigate(
@@ -1836,7 +1340,6 @@ const ResumeForm = () => {
         );
       } catch (error) {
         console.error(
-          "Save resume error:",
           error
         );
 
@@ -1844,7 +1347,9 @@ const ResumeForm = () => {
           "Failed to save resume."
         );
       } finally {
-        setLoading(false);
+        setLoading(
+          false
+        );
       }
     };
 
@@ -1864,12 +1369,12 @@ const ResumeForm = () => {
       }
 
       localStorage.removeItem(
-        DRAFT_KEY
+        "resume_draft"
       );
 
-      setFormData(
-        buildInitialState()
-      );
+      setFormData({
+        ...INITIAL_STATE,
+      });
     };
 
 
@@ -1931,21 +1436,6 @@ const ResumeForm = () => {
 
         <div className="resume-header-actions">
 
-          <button
-            type="button"
-            className="resume-analysis-btn"
-            onClick={
-              runResumeAnalysis
-            }
-            disabled={
-              isAnalyzing
-            }
-          >
-            {isAnalyzing
-              ? "Analysing..."
-              : "✨ Analyse Resume"}
-          </button>
-
           {!resumeId && (
             <button
               type="button"
@@ -2002,7 +1492,6 @@ const ResumeForm = () => {
         </div>
 
         <div className="completion-progress">
-
           <div
             className="completion-progress-fill"
             style={{
@@ -2010,173 +1499,9 @@ const ResumeForm = () => {
                 `${completion}%`,
             }}
           />
-
         </div>
 
       </section>
-
-
-      {/* =================================================
-          SMART ANALYSIS
-      ================================================= */}
-
-      {(formData.atsScore > 0 ||
-        formData.humanScore > 0 ||
-        formData.aiScore > 0) && (
-
-        <section className="resume-smart-analysis">
-
-          <div className="smart-analysis-header">
-
-            <div>
-              <span>
-                Smart Resume Intelligence
-              </span>
-
-              <h2>
-                Resume Quality Overview
-              </h2>
-            </div>
-
-            <button
-              type="button"
-              onClick={() =>
-                setAnalysisOpen(
-                  (prev) =>
-                    !prev
-                )
-              }
-            >
-              {analysisOpen
-                ? "Hide Details"
-                : "View Details"}
-            </button>
-
-          </div>
-
-
-          <div className="smart-score-grid">
-
-            <div className="smart-score-card">
-              <span>
-                ATS Score
-              </span>
-
-              <strong>
-                {formData.atsScore}%
-              </strong>
-            </div>
-
-            <div className="smart-score-card">
-              <span>
-                Human Score
-              </span>
-
-              <strong>
-                {formData.humanScore}%
-              </strong>
-            </div>
-
-            <div className="smart-score-card">
-              <span>
-                AI Score
-              </span>
-
-              <strong>
-                {formData.aiScore}%
-              </strong>
-            </div>
-
-          </div>
-
-
-          {analysisOpen && (
-
-            <div className="smart-analysis-details">
-
-              {analysisMessage && (
-                <p className="analysis-success">
-                  {analysisMessage}
-                </p>
-              )}
-
-
-              {formData.aiSuggestions
-                ?.length > 0 && (
-
-                <div>
-                  <h3>
-                    AI Improvement Suggestions
-                  </h3>
-
-                  <ul>
-                    {formData.aiSuggestions.map(
-                      (
-                        suggestion,
-                        index
-                      ) => (
-                        <li key={index}>
-                          {suggestion}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-
-
-              {formData.skillGapSuggestions
-                ?.length > 0 && (
-
-                <div>
-                  <h3>
-                    Skill Gap Suggestions
-                  </h3>
-
-                  <ul>
-                    {formData.skillGapSuggestions.map(
-                      (
-                        suggestion,
-                        index
-                      ) => (
-                        <li key={index}>
-                          {suggestion}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-
-
-              {formData.interviewSuggestions
-                ?.length > 0 && (
-
-                <div>
-                  <h3>
-                    Interview Intelligence
-                  </h3>
-
-                  <ul>
-                    {formData.interviewSuggestions.map(
-                      (
-                        suggestion,
-                        index
-                      ) => (
-                        <li key={index}>
-                          {suggestion}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-
-            </div>
-          )}
-
-        </section>
-      )}
 
 
       {/* =================================================
@@ -2197,6 +1522,7 @@ const ResumeForm = () => {
             <div className="sidebar-title">
               Resume Sections
             </div>
+
 
             {[
               [
@@ -2245,7 +1571,7 @@ const ResumeForm = () => {
                 "preview",
                 "Preview",
                 "👁",
-                sectionStatus.preview,
+                true,
               ],
             ].map(
               ([
@@ -2308,8 +1634,7 @@ const ResumeForm = () => {
               <p>
                 Use measurable
                 achievements and
-                relevant industry
-                keywords.
+                relevant skills.
               </p>
             </div>
 
@@ -2349,9 +1674,9 @@ const ResumeForm = () => {
                   </h2>
 
                   <p>
-                    Configure appearance,
-                    visibility and target
-                    role.
+                    Configure your
+                    resume appearance
+                    and visibility.
                   </p>
                 </div>
 
@@ -2420,54 +1745,6 @@ const ResumeForm = () => {
                       Minimalist
                     </option>
                   </select>
-
-                </div>
-
-
-                <div className="form-group">
-
-                  <label>
-                    Target Job Role
-                  </label>
-
-                  <input
-                    type="text"
-                    name="targetRole"
-                    value={
-                      formData.targetRole
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="Java Developer / React Developer"
-                  />
-
-                  <small>
-                    Helps contextual resume
-                    analysis and interview
-                    suggestions.
-                  </small>
-
-                </div>
-
-
-                <div className="form-group">
-
-                  <label>
-                    Target Industry
-                  </label>
-
-                  <input
-                    type="text"
-                    name="targetIndustry"
-                    value={
-                      formData.targetIndustry
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="IT / Software / Banking"
-                  />
 
                 </div>
 
@@ -2648,103 +1925,6 @@ const ResumeForm = () => {
 
               </div>
 
-
-              <div className="form-grid-2">
-
-                <div className="form-group">
-
-                  <label>
-                    LinkedIn
-                  </label>
-
-                  <input
-                    type="url"
-                    name="linkedin"
-                    value={
-                      formData.linkedin
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="https://linkedin.com/in/username"
-                  />
-
-                </div>
-
-
-                <div className="form-group">
-
-                  <label>
-                    GitHub
-                  </label>
-
-                  <input
-                    type="url"
-                    name="github"
-                    value={
-                      formData.github
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="https://github.com/username"
-                  />
-
-                </div>
-
-              </div>
-
-
-              <div className="form-grid-2">
-
-                <div className="form-group">
-
-                  <label>
-                    Languages
-                  </label>
-
-                  <input
-                    type="text"
-                    name="languages"
-                    value={
-                      formData.languages
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="English, Tamil, Hindi"
-                  />
-
-                  <small>
-                    Separate languages
-                    with commas.
-                  </small>
-
-                </div>
-
-
-                <div className="form-group">
-
-                  <label>
-                    Interests
-                  </label>
-
-                  <input
-                    type="text"
-                    name="interests"
-                    value={
-                      formData.interests
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    placeholder="Technology, Coding, Reading"
-                  />
-
-                </div>
-
-              </div>
-
             </section>
 
 
@@ -2789,16 +1969,9 @@ const ResumeForm = () => {
                   onChange={
                     handleChange
                   }
-                  rows={6}
+                  rows={5}
                   placeholder="Example: BCA student passionate about Java, React and software development..."
                 />
-
-                <small>
-                  Tip: Mention your
-                  role, strongest
-                  skills and career
-                  direction.
-                </small>
 
               </div>
 
@@ -2940,64 +2113,6 @@ const ResumeForm = () => {
 
               </div>
 
-
-              <div className="keyword-suggestions">
-
-                <span>
-                  Suggested keywords:
-                </span>
-
-                {COMMON_INDUSTRY_KEYWORDS
-                  .slice(0, 8)
-                  .map(
-                    (
-                      keyword
-                    ) => (
-                      <button
-                        key={
-                          keyword
-                        }
-                        type="button"
-                        onClick={() => {
-                          const current =
-                            splitSkills(
-                              formData.skills
-                            );
-
-                          if (
-                            !current.some(
-                              (skill) =>
-                                normalizeText(
-                                  skill
-                                ) ===
-                                normalizeText(
-                                  keyword
-                                )
-                            )
-                          ) {
-                            setFormData(
-                              (prev) => ({
-                                ...prev,
-
-                                skills:
-                                  [
-                                    ...current,
-                                    keyword,
-                                  ].join(
-                                    ", "
-                                  ),
-                              })
-                            );
-                          }
-                        }}
-                      >
-                        + {keyword}
-                      </button>
-                    )
-                  )}
-
-              </div>
-
             </section>
 
 
@@ -3090,7 +2205,7 @@ const ResumeForm = () => {
                 </label>
 
                 <textarea
-                  rows={6}
+                  rows={5}
                   value={
                     formData.internship
                       .description
@@ -3102,67 +2217,8 @@ const ResumeForm = () => {
                       e.target.value
                     )
                   }
-                  placeholder="Developed a web application using React and Firebase, improving..."
+                  placeholder="Describe responsibilities, achievements and technologies..."
                 />
-
-                <small>
-                  Prefer action verbs +
-                  technology + result.
-                  Example: "Developed a
-                  React dashboard that
-                  reduced manual work by
-                  30%."
-                </small>
-
-              </div>
-
-            </section>
-
-
-            {/* =================================================
-                ACHIEVEMENTS
-            ================================================= */}
-
-            <section className="resume-section-card">
-
-              <div className="section-heading">
-
-                <div className="section-icon">
-                  🏅
-                </div>
-
-                <div>
-                  <h2>
-                    Achievements
-                  </h2>
-
-                  <p>
-                    Add measurable
-                    accomplishments.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="form-group">
-
-                <textarea
-                  name="achievements"
-                  value={
-                    formData.achievements
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  rows={5}
-                  placeholder="Example: Improved application performance by 25%..."
-                />
-
-                <small>
-                  Quantifiable achievements
-                  improve resume impact.
-                </small>
 
               </div>
 
@@ -3291,7 +2347,7 @@ const ResumeForm = () => {
                         </label>
 
                         <textarea
-                          rows={6}
+                          rows={5}
                           value={
                             project.projectDescription
                           }
@@ -3303,14 +2359,8 @@ const ResumeForm = () => {
                               e.target.value
                             )
                           }
-                          placeholder="Built a React and Firebase resume platform with ATS analysis..."
+                          placeholder="Describe features, technologies and your contribution..."
                         />
-
-                        <small>
-                          Mention technologies,
-                          your contribution and
-                          measurable outcomes.
-                        </small>
 
                       </div>
 
@@ -3602,9 +2652,7 @@ const ResumeForm = () => {
 
               <div className="live-preview-wrapper">
 
-                <div
-                  className={`resume-preview-paper template-${formData.template}`}
-                >
+                <div className="resume-preview-paper">
 
                   <div className="preview-top">
 
@@ -3618,7 +2666,6 @@ const ResumeForm = () => {
                       <p className="preview-role">
                         {formData.internship
                           ?.jobRole ||
-                          formData.targetRole ||
                           "Software Developer"}
                       </p>
 
@@ -3639,18 +2686,6 @@ const ResumeForm = () => {
                             {
                               formData.phoneNumber
                             }
-                          </span>
-                        )}
-
-                        {formData.linkedin && (
-                          <span>
-                            LinkedIn
-                          </span>
-                        )}
-
-                        {formData.github && (
-                          <span>
-                            GitHub
                           </span>
                         )}
 
@@ -3882,40 +2917,6 @@ const ResumeForm = () => {
                     </div>
                   )}
 
-
-                  {formData.languages && (
-                    <div className="preview-section">
-
-                      <h3>
-                        LANGUAGES
-                      </h3>
-
-                      <p>
-                        {
-                          formData.languages
-                        }
-                      </p>
-
-                    </div>
-                  )}
-
-
-                  {formData.achievements && (
-                    <div className="preview-section">
-
-                      <h3>
-                        ACHIEVEMENTS
-                      </h3>
-
-                      <p>
-                        {
-                          formData.achievements
-                        }
-                      </p>
-
-                    </div>
-                  )}
-
                 </div>
 
               </div>
@@ -3923,77 +2924,92 @@ const ResumeForm = () => {
             </section>
 
 
-            {/* =================================================
-                ACTIONS
-            ================================================= */}
+            
+               {/*   ACTIONS   */} 
 
-            <div className="resume-form-action">
+               <div
 
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={() =>
-                  navigate(
-                    "/my-resumes"
-                  )
-                }
-              >
-                Cancel
-              </button>
+className="resume-form-actions">
 
+<button
 
-              <button
-                type="button"
-                className="analyse-resume-btn"
-                onClick={
-                  runResumeAnalysis
-                }
-                disabled={
-                  isAnalyzing
-                }
-              >
-                {isAnalyzing
-                  ? "Analysing..."
-                  : "🔍 Check Resume"}
-              </button>
+type="button"
 
+className="cancel-btn"
 
-              <button
-                type="submit"
-                className="save-resume-btn"
-                disabled={
-                  loading ||
-                  photoUploading ||
-                  certificateUploading
-                }
-              >
+onClick={() =>
 
-                {loading ? (
-                  <>
-                    <span className="button-spinner" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    ✨{" "}
-                    {resumeId
-                      ? "Update & Preview"
-                      : "Save & Preview"}
-                  </>
-                )}
+navigate(
 
-              </button>
+"/my-resumes"
 
-            </div>
+)
 
-          </form>
+}
 
-        </main>
+>
 
-      </div>
+Cancel
 
-    </div>
+</button>
+<button
+
+type="submit"
+
+className="save-resume-btn"
+
+disabled={
+
+loading ||
+
+photoUploading ||
+
+certificateUploading
+
+}
+
+>
+
+{loading? (
+
+<>
+
+<span
+
+className="button-spinner" />
+
+Saving...
+
+</>
+
+):(
+
+<>
+
+✨{" "}
+
+{resumeId
+
+? "Update & Preview"
+
+: "Save & Preview"}
+
+</>
+
+)}
+
+</button>
+
+</div>
+
+</form>
+
+</main>
+
+</div>
+
+</div>
   );
 };
 
-export default ResumeForm;
+export default ResumeForm;      

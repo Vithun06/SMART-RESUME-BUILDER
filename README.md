@@ -22,4 +22,4 @@ An interactive full-stack web application that enables users to input profile de
 
 ### 🔗 Project Links
 * **GitHub Repository:** https://github.com/Vithun06/SMART-RESUME-BUILDER
-*
+
